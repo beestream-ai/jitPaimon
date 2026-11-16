@@ -28,13 +28,12 @@ The GPU rewriter is used only where the default rewriter is a plain `MergeTreeCo
 sequence field, Parquet, flat primitive and string columns, no record-level expiry. Every other case
 goes to the default rewriter unchanged.
 
-## Gap found (candidate upstream ask, not filed)
+## Gap found, proposed upstream
 
-The factory receives only the default rewriter. Paths, file format, the stats collectors and the
-`DataFileMeta` builder sit in `KeyValueFileWriterFactory`/`FileReaderFactory`, which are `protected`
-fields of `MergeTreeCompactRewriter`. The prototype reads them from a class in the same package. A
-small accessor on the rewriter, or a context argument for the factory, would remove that. Bring
-this up only once there are numbers, and only with the user's yes.
+The factory receives only the default rewriter. The file IO, key and value types and per-level path
+factories sit in its `KeyValueFileWriterFactory`, a `protected` field of `MergeTreeCompactRewriter`, so
+jitPaimon reads it from a class in Paimon's package (`JitPaimonAccess`). apache/paimon#11209 proposes a
+public `MergeTreeCompactRewriter#writerFactory()`. Once released, that class goes.
 
 ## Related upstream activity
 
