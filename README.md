@@ -93,8 +93,8 @@ scripts/run-bench.sh ~/paimon-data/b50/base ~/paimon-data/b50/runs "cpu:1 cpu:16
 
 ## TornadoVM
 
-jitPaimon runs with TornadoVM 8.1.0 plus three fixes to its cuDF shim, which are not upstream yet
-(branch `fix/cudf-read-narrow-ints`):
+jitPaimon runs with TornadoVM 8.1.0 plus three fixes to its cuDF shim, proposed upstream in
+beehive-lab/TornadoVM#1329:
 
 - **Reads widen INT(8)/INT(16) columns.** Paimon's `_VALUE_KIND` is one, and it was refused.
 - **Writes INT8/INT16.** GPU-written files then have Paimon's schema.
