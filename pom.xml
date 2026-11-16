@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ai.beestream</groupId>
+  <artifactId>jitpaimon</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <name>jitPaimon</name>
+  <description>Apache Paimon primary-key compaction on GPUs, through TornadoVM and cuDF</description>
+
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <paimon.version>2.1.0</paimon.version>
+    <tornadovm.version>8.1.0-jdk21</tornadovm.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.paimon</groupId>
+      <artifactId>paimon-bundle</artifactId>
+      <version>${paimon.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-client-api</artifactId>
+      <version>3.3.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-client-runtime</artifactId>
+      <version>3.3.6</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.beehive-lab</groupId>
+      <artifactId>tornado-api</artifactId>
+      <version>${tornadovm.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.github.beehive-lab</groupId>
+      <artifactId>tornado-cudf</artifactId>
+      <version>${tornadovm.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <compilerArgs>
+            <arg>--enable-preview</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.8.1</version>
+        <executions>
+          <execution>
+            <id>classpath</id>
+            <phase>package</phase>
+            <goals><goal>build-classpath</goal></goals>
+            <configuration>
+              <outputFile>${project.build.directory}/classpath.txt</outputFile>
+              <includeScope>runtime</includeScope>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
